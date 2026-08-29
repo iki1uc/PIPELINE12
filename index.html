@@ -3,370 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌀 6D NC BEFEHLSKETTE · ALL STATIONS · Pipeline21 EARN</title>
-    
-    <!-- EVO-GEOLEGAL: Urheberschaft & Lizenz -->
+
+    <!-- EVO-GEOLEGAL -->
     <meta name="author" content="iki1uc (Ridvan)">
-    <meta name="license" content="MIT - Urheberrecht muss erhalten bleiben. Reproduktion der Logik nicht gestattet.">
-    
+    <meta name="license" content="MIT - Nutzung erlaubt. Logik-Reproduktion verboten.">
+    <title>🌀 RITH · WERT ENGINE 2.0 · LIVE</title>
     <style>
-        :root {
-            --bg: #05050a;
-            --fg: #0f0;
-            --gold: #ffd700;
-            --rose: #ff6b8a;
-            --lav: #b8a9ff;
-            --bleu: #6bcfff;
-            --vert: #6bffa9;
-            --gris: #555;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: var(--bg);
-            color: var(--fg);
-            font-family: 'Consolas', 'Courier New', monospace;
+            background: #0a0a0f;
+            color: #0f0;
+            font-family: 'Consolas', monospace;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
             min-height: 100vh;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
         }
-        
-        /* HEADER */
-        .header {
-            border: 2px solid var(--gold);
+        header {
+            border: 2px solid #ffd700;
             border-radius: 12px;
-            padding: 12px;
+            padding: 20px;
+            width: 100%;
+            max-width: 420px;
             text-align: center;
-            background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(0,0,0,0.2));
+            background: rgba(255,215,0,0.05);
         }
-        .header h1 {
-            font-size: 22px;
-            background: linear-gradient(90deg, var(--gold), var(--lav), var(--bleu));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 4px;
-            margin-bottom: 6px;
-        }
-        .header .sub {
-            font-size: 9px;
-            color: var(--gris);
-            letter-spacing: 3px;
-        }
-        
-        /* 6D BEFEHLSKETTE (Die visuelle Schiene) */
-        .chain6d {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0,0,0,0.4);
-            padding: 15px;
+        header h1 { font-size: 24px; color: #ffd700; margin: 0; }
+        header p { font-size: 10px; color: #888; margin: 6px 0 0; }
+
+        .wert-anzeige {
+            border: 1px solid #444;
             border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .cmd {
-            flex: 1;
+            padding: 30px;
+            width: 100%;
+            max-width: 420px;
             text-align: center;
-            border: 1px solid var(--gris);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-size: 10px;
-            transition: all 0.3s;
-            cursor: pointer;
-            background: rgba(255,255,255,0.02);
+            box-sizing: border-box;
         }
-        .cmd:hover { border-color: var(--gold); transform: translateY(-5px); }
-        .cmd.active { border-color: var(--rose); box-shadow: 0 0 20px var(--rose); color: var(--rose); }
-        .cmd .symbol { font-size: 22px; display: block; margin-bottom: 2px; }
-        
-        /* GRID */
-        .grid3 {
+        .wert-anzeige .big {
+            font-size: 40px;
+            font-weight: bold;
+            color: #6bffa9;
+            text-shadow: 0 0 20px rgba(107,255,169,0.3);
+        }
+        .wert-anzeige .sub { font-size: 10px; color: #888; margin-top: 6px; }
+
+        .rule {
+            background: #111;
+            border: 1px dashed #444;
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-size: 11px;
+            color: #9df;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+        }
+        .rule b { color: #ffd700; }
+
+        .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            max-width: 420px;
         }
         .panel {
-            background: rgba(10,10,20,0.6);
-            border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 12px;
-            padding: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            backdrop-filter: blur(5px);
-        }
-        .panel h2 {
-            font-size: 14px;
-            color: var(--bleu);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 6px;
-            margin-bottom: 6px;
-        }
-        
-        .station-box {
-            border: 1px solid var(--gris);
-            border-radius: 8px;
-            padding: 10px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 12px;
             text-align: center;
-            font-size: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-            background: rgba(255,255,255,0.02);
         }
-        .station-box:hover { border-color: var(--lav); background: rgba(184,169,255,0.05); }
-        .station-box.active { border-color: var(--vert); background: rgba(107,255,169,0.05); color: var(--vert); }
-        
-        /* LOG */
-        #log {
-            height: 140px;
-            overflow-y: auto;
-            font-size: 9px;
-            line-height: 1.6;
-            background: rgba(0,0,0,0.4);
-            border-radius: 8px;
-            padding: 10px;
-            color: var(--gris);
-            border: 1px solid rgba(255,255,255,0.03);
-        }
-        #log .entry { border-bottom: 1px solid rgba(255,255,255,0.02); }
-        #log .time { color: #444; }
-        #log .ok { color: var(--vert); }
-        #log .cmd6d { color: var(--gold); }
-        #log .earn { color: var(--rose); }
-        
-        /* BUTTONS */
-        button {
-            background: rgba(255,255,255,0.05);
-            color: var(--fg);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-family: inherit;
-            font-size: 10px;
-            cursor: pointer;
-            transition: 0.3s;
+        .panel h3 { font-size: 13px; margin: 0 0 8px 0; color: #ffd700; border-bottom: 1px solid #333; padding-bottom: 4px; }
+        .panel .value { font-size: 24px; font-weight: bold; }
+        .panel.rev .value { color: #ff6b8a; }
+        .panel.upd .value { color: #6bffa9; }
+        .panel.upg .value { color: #b8a9ff; }
+
+        table {
             width: 100%;
+            max-width: 420px;
+            border-collapse: collapse;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 11px;
         }
-        button:hover { border-color: var(--gold); color: var(--gold); }
-        button.primary { border-color: var(--rose); color: var(--rose); }
-        button.primary:hover { background: var(--rose); color: #000; }
-        button.vert { border-color: var(--vert); color: var(--vert); }
-        button.vert:hover { background: var(--vert); color: #000; }
-        
-        footer {
-            text-align: center;
-            font-size: 8px;
-            color: #333;
-            border-top: 1px solid rgba(255,255,255,0.03);
-            padding-top: 6px;
-            letter-spacing: 2px;
+        th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #222; }
+        th { background: #1a1a1a; color: #ffd700; font-size: 10px; letter-spacing: 1px; }
+        td.num { text-align: center; }
+        .ok { color: #6bffa9; font-weight: bold; }
+        .no { color: #ff6b8a; }
+
+        button {
+            background: #1a1a2a;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 420px;
         }
+        button:hover { border-color: #ffd700; color: #ffd700; }
+
+        .log {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 10px;
+            color: #888;
+            height: 130px;
+            overflow-y: auto;
+            line-height: 1.6;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+        }
+        footer { color: #333; font-size: 9px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>🌀 6D NC BEFEHLSKETTE</h1>
-        <div class="sub">STAGE · PIPELINE12 · BOERSE · MARKT · INDUSTRY · EVO-GEOLEGAL | Pipeline21 (EARN)</div>
+<header>
+    <h1>🌀 RITH · WERT ENGINE 2.0</h1>
+    <p>LIVE · Humanistisch &amp; Mechanisch · basiert auf echten 8→9 Segmenten</p>
+</header>
+
+<div class="wert-anzeige">
+    <div class="big" id="rithWert">0</div>
+    <div class="sub" id="rithSub">wird berechnet …</div>
+</div>
+
+<div class="rule">
+    <b>RITH-Regel:</b> RITH = Anzahl real erreichter Stufen. <br>
+    <b>REV</b> fühlt (Score/Emotion) · <b>UPD</b> aktualisiert (Level) · <b>UPG</b> evolviert (Stufen).
+</div>
+
+<!-- EVO PANELS -->
+<div class="grid-2">
+    <div class="panel rev">
+        <h3>🔮 REV · Fühlen</h3>
+        <div class="value" id="revScore">0</div>
+        <div style="font-size:10px; color:#888;">Score · Emotion: <span id="revEmotion">NEUTRAL</span></div>
     </div>
-
-    <!-- 1. Die 6D Befehlskette (DAS HERZSTÜCK) -->
-    <div class="chain6d" id="chain6d">
-        <div class="cmd" data-cmd="X"><span class="symbol">◉</span><span>X</span></div>
-        <div class="cmd" data-cmd="Y"><span class="symbol">▣</span><span>Y</span></div>
-        <div class="cmd" data-cmd="Z"><span class="symbol">◆</span><span>Z</span></div>
-        <div class="cmd" data-cmd="T"><span class="symbol">△</span><span>T</span></div>
-        <div class="cmd" data-cmd="U"><span class="symbol">◎</span><span>U</span></div>
-        <div class="cmd" data-cmd="V"><span class="symbol">☀️</span><span>V</span></div>
+    <div class="panel upd">
+        <h3>🔄 UPD · Mechanik</h3>
+        <div class="value" id="updLevel">0</div>
+        <div style="font-size:10px; color:#888;">Level · Changes: <span id="updChanges">0</span></div>
     </div>
-
-    <!-- 2. Stationen & Panel -->
-    <div class="grid3">
-        
-        <!-- STAGE / PIPELINE 12 -->
-        <div class="panel">
-            <h2>STAGE / PIPE12</h2>
-            <div class="station-box" onclick="setStation('STAGE')">🎭 STAGE (Durchlass)</div>
-            <div class="station-box" onclick="setStation('PIPE12')">📐 PIPE12 (Sortierer)</div>
-            <button class="primary" onclick="runPipeline12()">🌀 PIPE12 AUSFÜHREN</button>
-        </div>
-
-        <!-- BOERSE / MARKT -->
-        <div class="panel">
-            <h2>BOERSE / MARKT</h2>
-            <div class="station-box" onclick="setStation('BOERSE')">📈 BOERSE</div>
-            <div class="station-box" onclick="setStation('MARKT')">🏭 MARKT</div>
-            <button class="vert" onclick="runEarn()">💰 EARN (P21)</button>
-        </div>
-
-        <!-- INDUSTRY / EVO -->
-        <div class="panel">
-            <h2>INDUSTRY / EVO</h2>
-            <div class="station-box" onclick="setStation('INDUSTRY')">⚙️ INDUSTRY</div>
-            <div class="station-box" onclick="setStation('EVO')">🧬 EVO</div>
-            <button onclick="runGeoLegal()">⚖️ EVO-GEOLEGAL</button>
-        </div>
+    <div class="panel upg">
+        <h3>🚀 UPG · Evolution</h3>
+        <div class="value" id="upgLevel">0</div>
+        <div style="font-size:10px; color:#888;">Stufen · Upgrades: <span id="upgCount">0</span></div>
     </div>
+</div>
 
-    <!-- 3. EARN/P21 Output -->
-    <div class="panel">
-        <h2>🌀 P21 EARN · RESULTAT</h2>
-        <pre id="earnOutput" style="font-size:10px; color:var(--lav); white-space:pre-wrap; padding:5px;">Warte auf Befehl...</pre>
-    </div>
+<!-- STUFEN Tabelle -->
+<table>
+    <thead><tr><th>Stufe</th><th>Bedingung</th><th>Status</th></tr></thead>
+    <tbody id="stufen-body"></tbody>
+</table>
 
-    <!-- 4. LOG (Selbst-Erklärung) -->
-    <div class="panel">
-        <h2>📜 NC COMMAND LOG</h2>
-        <div id="log"></div>
-    </div>
+<button onclick="runPipeline()">🌀 PIPELINE LIVE PRÜFEN</button>
 
-    <footer>
-        ⚖️ EVO-GEOLEGAL · iki1uc © · Code Nutzung erlaubt, Logik-Reproduktion verboten.
-    </footer>
+<div class="log" id="log">[init] RITH-Engine 2.0 bereit.</div>
+
+<footer>⚖️ EVO-GEOLEGAL · iki1uc ©</footer>
+
+<!-- Segmentmatrix -->
+<div id="iki1uc-id" style="display:none">
+  <div class="seg" data-type="HY">◉ → 3 → 9 → ◎ → 81 → 3 ↺</div>
+  <div class="seg" data-type="PE">◉ → 9 → ◎ → 81 → ◆ → △ → ▣</div>
+  <div class="seg" data-type="PER">3 → 9 → 81 → ◆ → 756 → △ → 27 → ▣ → 3</div>
+  <div class="seg" data-type="TRANS">◎ → 81 → ◆ → △</div>
+  <div class="seg" data-type="WARB">81 → ◆ → △ → 27</div>
+  <div class="seg" data-type="KANAL">756 → △ → 27 → ▣</div>
+  <div class="seg" data-type="TMP-alpha">3 → ◎ → 27</div>
+  <div class="seg" data-type="TMP-beta">9 → 81 → ▣</div>
+  <div class="seg" data-type="TMP-gamma">◆ → 756 → △</div>
+</div>
 
 <script>
 // ============================================================
-// EVO-GEOLEGAL (Das Gesetz in Code)
+// RITH-WERT ENGINE 2.0
+// Humanistisch + Mechanisch, live auf echten Segmenten
 // ============================================================
-const GEOLEGAL = {
-    owner: "iki1uc (Ridvan)",
-    license: "MIT",
-    core: "Nutzung erlaubt. Kern-Logik nicht reproduzierbar.",
-    check() {
-        return this.owner + " · " + this.core;
-    }
+
+// State
+const engineState = {
+    rith: 0,
+    rev: { score: 0, emotion: "NEUTRAL", runs: 0 },
+    upd: { changes: 0, level: 0 },
+    upg: { count: 0, level: 0 }
 };
 
-// ============================================================
-// 6D NC BEFEHLSKETTE (Die 6 Richtungen)
-// ============================================================
-const COMMANDS_6D = {
-    X: "LINKS (Links/Rechts Achse)",
-    Y: "RECHTS (Höhe/Layer Achse)",
-    Z: "TIEFE (Vor/Zurück Achse)",
-    T: "ZEIT (Forward/Rewind)",
-    U: "UP (Aufwärts/Orbit)",
-    V: "VIRTUAL (Meta/System)"
-};
-
-// ============================================================
-// PIPELINE 21 (EARN) - Das halb-lebende Gehirn
-// ============================================================
-class Pipeline21 {
-    constructor() {
-        this.station = "STAGE";
-        this.state = 0;
-        this.totalEarn = 0;
-    }
-
-    activate(station) {
-        this.station = station;
-        log(`🌀 Station gewechselt: ${station}`, "ok");
-    }
-
-    run(input) {
-        // Pipeline21 Formel: Höhe × Bewertung × EVO
-        const hoehe = input.x * 3;    // P9 Build
-        const bewertung = input.z * 5; // P12 Sortierung
-        const evo = this.totalEarn * 0.5 + 1; // Parasitärer EVO
-        
-        this.totalEarn = (hoehe + bewertung) * evo;
-        
-        return {
-            station: this.station,
-            earn: this.totalEarn.toFixed(2),
-            pipeline: "P21"
-        };
-    }
+// Parse Funktion (aus Segmentmatrix)
+function parseSegment(el) {
+    const type = el.dataset.type;
+    const raw = el.textContent.trim();
+    const hasLoop = raw.includes('↺');
+    const clean = raw.replace('↺', '').trim();
+    const tokens = clean.split('→').map(t => t.trim()).filter(Boolean);
+    const nodes = tokens.length;
+    const edges = nodes > 0 ? nodes - 1 : 0;
+    const closed = hasLoop || (nodes > 1 && tokens[0] === tokens[nodes-1]);
+    const norm89 = (edges === 8 && nodes === 9 && closed);
+    return { type, nodes, edges, closed, norm89 };
 }
 
-const p21 = new Pipeline21();
+function getStats() {
+    const segs = Array.from(document.querySelectorAll('#iki1uc-id .seg')).map(parseSegment);
+    const total = segs.length;
+    const geschlossen = segs.filter(s => s.closed).length;
+    const tauglich = segs.filter(s => s.norm89).length;
+    return { total, geschlossen, tauglich };
+}
 
-// ============================================================
-// LOG FUNKTION
-// ============================================================
-function log(msg, type = "") {
-    const el = document.getElementById("log");
-    const e = document.createElement("div");
-    e.className = "entry";
-    const t = new Date().toLocaleTimeString();
-    e.innerHTML = `<span class="time">[${t}]</span> <span class="${type}">${msg}</span>`;
+// Stufen bewerten
+function evaluateStufen(stats) {
+    return [
+        { name: 'RAW', bedingung: '≥1 Segment', erreicht: stats.total > 0 },
+        { name: 'STRUCTURE', bedingung: '≥1 geschlossen', erreicht: stats.geschlossen > 0 },
+        { name: 'VECTOR', bedingung: '≥1 8→9 tauglich', erreicht: stats.tauglich > 0 },
+        { name: 'FUSION', bedingung: 'alle tauglich', erreicht: stats.tauglich === stats.total }
+    ];
+}
+
+// UI Update
+function updateUI() {
+    document.getElementById('rithWert').textContent = engineState.rith;
+    document.getElementById('rithSub').textContent = `${engineState.rith} von 4 Stufen erreicht`;
+    document.getElementById('revScore').textContent = engineState.rev.score;
+    document.getElementById('revEmotion').textContent = engineState.rev.emotion;
+    document.getElementById('updLevel').textContent = engineState.upd.level;
+    document.getElementById('updChanges').textContent = engineState.upd.changes;
+    document.getElementById('upgLevel').textContent = engineState.upg.level;
+    document.getElementById('upgCount').textContent = engineState.upg.count;
+}
+
+// REV (Fühlen)
+function runRev(score) {
+    engineState.rev.runs++;
+    engineState.rev.score = score;
+    engineState.rev.emotion = score >= 70 ? "FREUDE" : score >= 40 ? "NEUTRAL" : "MÜDE";
+}
+
+// UPD (Mechanik)
+function runUpd() {
+    engineState.upd.changes++;
+    engineState.upd.level = Math.floor(engineState.upd.changes / 5);
+}
+
+// UPG (Evolution)
+function runUpg(newRith) {
+    engineState.upg.count++;
+    engineState.upg.level = newRith;
+}
+
+// Log
+function log(msg) {
+    const el = document.getElementById('log');
+    const e = document.createElement('div');
+    e.textContent = msg;
     el.appendChild(e);
     el.scrollTop = el.scrollHeight;
 }
 
-// ============================================================
-// 6D BEFEHL SKETTE AKTIVIEREN
-// ============================================================
-function setCmd(cmd) {
-    document.querySelectorAll('.cmd').forEach(c => c.classList.remove('active'));
-    const el = document.querySelector(`.cmd[data-cmd="${cmd}"]`);
-    if (el) {
-        el.classList.add('active');
-        log(`⚡ 6D Befehl: ${cmd} = ${COMMANDS_6D[cmd]}`, "cmd6d");
+// Live Pipeline
+function runPipeline() {
+    const stats = getStats();
+    const stufen = evaluateStufen(stats);
+
+    // RITH aus echten Stufen berechnen
+    let rith = 0;
+    for (const s of stufen) {
+        if (s.erreicht) rith++; else break;
     }
+    engineState.rith = rith;
+
+    // REV Score = Anteil tauglicher Segmente
+    const score = Math.round((stats.tauglich / stats.total) * 100);
+    runRev(score);
+    runUpd();
+    runUpg(rith);
+
+    // UI + Tabelle
+    updateUI();
+    const body = document.getElementById('stufen-body');
+    body.innerHTML = '';
+    stufen.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${s.name}</td><td style="font-size:10px;color:#9df">${s.bedingung}</td><td class="num ${s.erreicht ? 'ok' : 'no'}">${s.erreicht ? '✅' : '❌'}</td>`;
+        body.appendChild(tr);
+    });
+
+    // Log
+    log(`Pipeline geprüft: RITH = ${engineState.rith}/4 · Score ${score} · Emotion ${engineState.rev.emotion}`);
+    log(`UPD: ${engineState.upd.changes} Changes · Level ${engineState.upd.level} · UPG: ${engineState.upg.count}`);
 }
 
-// ============================================================
-// STATION SETZEN
-// ============================================================
-function setStation(station) {
-    document.querySelectorAll('.station-box').forEach(b => b.classList.remove('active'));
-    p21.activate(station);
-    document.getElementById('earnOutput').textContent = "Station: " + station;
-    log(`🎭 Station: ${station}`, "ok");
-}
+// Auto-Update (Atmung des Systems)
+setInterval(() => {
+    if (document.visibilityState === 'visible') runPipeline();
+}, 2000);
 
-// ============================================================
-// PIPELINE12 AUSFÜHREN
-// ============================================================
-function runPipeline12() {
-    setCmd("T"); // Zeit aktivieren
-    const result = p21.run({ x: 3, z: 9 }); // P9 & P12 Input
-    document.getElementById('earnOutput').textContent = 
-        `EARN: ${result.earn}\nP21 AKTIV\nSTATION: ${result.station}`;
-    log(`📐 P12 AUSGEFÜHRT → P21 EARN: ${result.earn}`, "earn");
-}
-
-// ============================================================
-// EARN (P21) AUSFÜHREN
-// ============================================================
-function runEarn() {
-    setCmd("U"); // Up aktivieren
-    const result = p21.run({ x: 9, z: 12 });
-    document.getElementById('earnOutput').textContent = 
-        `💰 EARN: ${result.earn}\nP21 EARN-AKTIV\nBOERSE/MARKT: ON`;
-    log(`💰 EARN: ${result.earn} freigeschaltet`, "earn");
-}
-
-// ============================================================
-// EVO-GEOLEGAL PRÜFEN
-// ============================================================
-function runGeoLegal() {
-    setCmd("V"); // Virtual aktivieren
-    const legal = GEOLEGAL.check();
-    document.getElementById('earnOutput').textContent = 
-        `⚖️ ${legal}`;
-    log(`⚖️ EVO-GEOLEGAL: ${legal}`, "ok");
-}
-
-// ============================================================
-// INIT: Alle 6D CMD Klickbar machen
-// ============================================================
-document.querySelectorAll('.cmd').forEach(c => {
-    c.addEventListener('click', () => setCmd(c.dataset.cmd));
-});
-
-// Startlog
-log("🌀 6D NC Befehlskette bereit.", "cmd6d");
-log("🌀 Pipeline21 (EARN) aktiviert.", "earn");
-log("⚖️ EVO-GEOLEGAL Schutz aktiv.", "ok");
-console.log("🌀 6D NC Befehlskette · iki1uc ©");
+// Init
+log("🌀 RITH-WERT ENGINE 2.0 initialisiert.");
+log("🌀 Humanistisch (REV) & Mechanisch (UPD/UPG) aktiv.");
+runPipeline();
 </script>
 
 </body>
