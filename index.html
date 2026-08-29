@@ -1,337 +1,372 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🌀 Einheits‑Index · STAGE · Boerse · Markt · Industry · ALL IN ONE</title>
-
-<style>
-:root {
-    --bg: #0a0a0f;
-    --fg: #0f0;
-    --gold: #ffd700;
-    --rose: #ff6b8a;
-    --lav: #b8a9ff;
-    --bleu: #6bcfff;
-    --vert: #6bffa9;
-    --gris: #444;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Consolas', monospace;
-    min-height: 100vh;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-header { text-align: center; padding-bottom: 8px; border-bottom: 1px solid rgba(255,215,61,0.2); }
-h1 { font-size: 22px; color: var(--gold); letter-spacing: 3px; font-weight: 300; }
-h2 { font-size: 14px; margin-bottom: 8px; color: var(--bleu); }
-
-/* Grid System */
-.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
-.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; }
-
-/* Panels */
-.panel {
-    background: rgba(10,10,15,0.6);
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 12px;
-    padding: 12px;
-    backdrop-filter: blur(4px);
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-/* Status Boxen */
-.status-box {
-    border: 1px solid var(--gris);
-    border-radius: 8px;
-    padding: 8px;
-    text-align: center;
-    font-size: 10px;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: var(--gris);
-}
-.status-box.active { border-color: var(--rose); color: var(--rose); background: rgba(255,107,138,0.05); }
-.status-box.ready { border-color: var(--vert); color: var(--vert); background: rgba(107,255,169,0.05); }
-.status-box:hover { border-color: var(--gold); }
-
-/* Pipeline Visual */
-.pipe-line { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; font-size: 12px; }
-.pipe-node {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 50%;
-    padding: 8px;
-    min-width: 32px;
-    text-align: center;
-    font-weight: bold;
-    transition: all 0.3s;
-}
-.pipe-node.active { background: var(--rose); color: #000; border-color: var(--rose); }
-.pipe-arrow { color: var(--gris); font-size: 14px; }
-
-/* Log */
-#log {
-    font-size: 9px;
-    color: var(--gris);
-    line-height: 1.5;
-    background: rgba(0,0,0,0.3);
-    border-radius: 8px;
-    padding: 8px;
-    height: 120px;
-    overflow-y: auto;
-}
-#log .entry { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
-#log .time { color: #444; }
-#log .msg { color: var(--bleu); }
-#log .msg.ok { color: var(--vert); }
-#log .msg.err { color: var(--rose); }
-#log .msg.gold { color: var(--gold); }
-
-/* Buttons */
-button {
-    background: rgba(255,255,255,0.05);
-    color: var(--fg);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-family: inherit;
-    font-size: 9px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-button:hover { border-color: var(--gold); color: var(--gold); }
-button:active { transform: scale(0.95); }
-button.primary { border-color: var(--rose); color: var(--rose); }
-button.primary:hover { background: var(--rose); color: #000; }
-button.vert { border-color: var(--vert); color: var(--vert); }
-button.vert:hover { background: var(--vert); color: #000; }
-
-/* Selbst-Erklärung */
-.tooltip { position: relative; cursor: help; }
-.tooltip:hover::after {
-    content: attr(data-tip);
-    position: absolute;
-    bottom: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #111;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    padding: 5px 8px;
-    border-radius: 4px;
-    font-size: 8px;
-    white-space: nowrap;
-    z-index: 10;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌀 6D NC BEFEHLSKETTE · ALL STATIONS · Pipeline21 EARN</title>
+    
+    <!-- EVO-GEOLEGAL: Urheberschaft & Lizenz -->
+    <meta name="author" content="iki1uc (Ridvan)">
+    <meta name="license" content="MIT - Urheberrecht muss erhalten bleiben. Reproduktion der Logik nicht gestattet.">
+    
+    <style>
+        :root {
+            --bg: #05050a;
+            --fg: #0f0;
+            --gold: #ffd700;
+            --rose: #ff6b8a;
+            --lav: #b8a9ff;
+            --bleu: #6bcfff;
+            --vert: #6bffa9;
+            --gris: #555;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'Consolas', 'Courier New', monospace;
+            min-height: 100vh;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        /* HEADER */
+        .header {
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255,215,0,0.05), rgba(0,0,0,0.2));
+        }
+        .header h1 {
+            font-size: 22px;
+            background: linear-gradient(90deg, var(--gold), var(--lav), var(--bleu));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+        }
+        .header .sub {
+            font-size: 9px;
+            color: var(--gris);
+            letter-spacing: 3px;
+        }
+        
+        /* 6D BEFEHLSKETTE (Die visuelle Schiene) */
+        .chain6d {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .cmd {
+            flex: 1;
+            text-align: center;
+            border: 1px solid var(--gris);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: rgba(255,255,255,0.02);
+        }
+        .cmd:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .cmd.active { border-color: var(--rose); box-shadow: 0 0 20px var(--rose); color: var(--rose); }
+        .cmd .symbol { font-size: 22px; display: block; margin-bottom: 2px; }
+        
+        /* GRID */
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        .panel {
+            background: rgba(10,10,20,0.6);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            backdrop-filter: blur(5px);
+        }
+        .panel h2 {
+            font-size: 14px;
+            color: var(--bleu);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 6px;
+            margin-bottom: 6px;
+        }
+        
+        .station-box {
+            border: 1px solid var(--gris);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            background: rgba(255,255,255,0.02);
+        }
+        .station-box:hover { border-color: var(--lav); background: rgba(184,169,255,0.05); }
+        .station-box.active { border-color: var(--vert); background: rgba(107,255,169,0.05); color: var(--vert); }
+        
+        /* LOG */
+        #log {
+            height: 140px;
+            overflow-y: auto;
+            font-size: 9px;
+            line-height: 1.6;
+            background: rgba(0,0,0,0.4);
+            border-radius: 8px;
+            padding: 10px;
+            color: var(--gris);
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        #log .entry { border-bottom: 1px solid rgba(255,255,255,0.02); }
+        #log .time { color: #444; }
+        #log .ok { color: var(--vert); }
+        #log .cmd6d { color: var(--gold); }
+        #log .earn { color: var(--rose); }
+        
+        /* BUTTONS */
+        button {
+            background: rgba(255,255,255,0.05);
+            color: var(--fg);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        button:hover { border-color: var(--gold); color: var(--gold); }
+        button.primary { border-color: var(--rose); color: var(--rose); }
+        button.primary:hover { background: var(--rose); color: #000; }
+        button.vert { border-color: var(--vert); color: var(--vert); }
+        button.vert:hover { background: var(--vert); color: #000; }
+        
+        footer {
+            text-align: center;
+            font-size: 8px;
+            color: #333;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            padding-top: 6px;
+            letter-spacing: 2px;
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-    <h1>🌀 SUPERPIPELINE · EINHEITS‑SYSTEM</h1>
-    <p style="font-size:9px; color:var(--gris);">Pipeline 0 (Arbeit) → 1 (RESPO) → 2 (RESPO) → 4 (Runner) → 9 (Team) → 12 (Verdrittler) → ALLES | Selbsterklärend durch Tooltips</p>
-</header>
-
-<!-- 1. PIPELINE ÜBERSICHT -->
-<div class="panel">
-    <h2>🧠 PIPELINE 0-1-2-4-9-12</h2>
-    <div class="pipe-line" id="mainPipeline" style="justify-content:center;">
-        <!-- Pipeline Nodes werden per JS erzeugt -->
+    <div class="header">
+        <h1>🌀 6D NC BEFEHLSKETTE</h1>
+        <div class="sub">STAGE · PIPELINE12 · BOERSE · MARKT · INDUSTRY · EVO-GEOLEGAL | Pipeline21 (EARN)</div>
     </div>
-</div>
 
-<!-- 2. HAUPT SYSTEME (Boerse, Markt, Industry, STAGE) -->
-<div class="grid-4">
+    <!-- 1. Die 6D Befehlskette (DAS HERZSTÜCK) -->
+    <div class="chain6d" id="chain6d">
+        <div class="cmd" data-cmd="X"><span class="symbol">◉</span><span>X</span></div>
+        <div class="cmd" data-cmd="Y"><span class="symbol">▣</span><span>Y</span></div>
+        <div class="cmd" data-cmd="Z"><span class="symbol">◆</span><span>Z</span></div>
+        <div class="cmd" data-cmd="T"><span class="symbol">△</span><span>T</span></div>
+        <div class="cmd" data-cmd="U"><span class="symbol">◎</span><span>U</span></div>
+        <div class="cmd" data-cmd="V"><span class="symbol">☀️</span><span>V</span></div>
+    </div>
+
+    <!-- 2. Stationen & Panel -->
+    <div class="grid3">
+        
+        <!-- STAGE / PIPELINE 12 -->
+        <div class="panel">
+            <h2>STAGE / PIPE12</h2>
+            <div class="station-box" onclick="setStation('STAGE')">🎭 STAGE (Durchlass)</div>
+            <div class="station-box" onclick="setStation('PIPE12')">📐 PIPE12 (Sortierer)</div>
+            <button class="primary" onclick="runPipeline12()">🌀 PIPE12 AUSFÜHREN</button>
+        </div>
+
+        <!-- BOERSE / MARKT -->
+        <div class="panel">
+            <h2>BOERSE / MARKT</h2>
+            <div class="station-box" onclick="setStation('BOERSE')">📈 BOERSE</div>
+            <div class="station-box" onclick="setStation('MARKT')">🏭 MARKT</div>
+            <button class="vert" onclick="runEarn()">💰 EARN (P21)</button>
+        </div>
+
+        <!-- INDUSTRY / EVO -->
+        <div class="panel">
+            <h2>INDUSTRY / EVO</h2>
+            <div class="station-box" onclick="setStation('INDUSTRY')">⚙️ INDUSTRY</div>
+            <div class="station-box" onclick="setStation('EVO')">🧬 EVO</div>
+            <button onclick="runGeoLegal()">⚖️ EVO-GEOLEGAL</button>
+        </div>
+    </div>
+
+    <!-- 3. EARN/P21 Output -->
     <div class="panel">
-        <h2>📈 BOERSE</h2>
-        <div class="status-box tooltip" data-tip="Pipeline 0: Hier beginnt die Arbeit" onclick="activatePipe(0)">
-            <b>P0 · ARBEIT</b>
-        </div>
-        <div class="status-box tooltip" data-tip="RESPO 1: Erste Rückmeldung" onclick="activatePipe(1)">
-            <b>P1 · RESPO</b>
-        </div>
-        <div class="status-box tooltip" data-tip="RESPO 2: Zweite Rückmeldung" onclick="activatePipe(2)">
-            <b>P2 · RESPO</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Runner 4: Ausführung" onclick="activatePipe(4)">
-            <b>P4 · RUNNER</b>
-        </div>
+        <h2>🌀 P21 EARN · RESULTAT</h2>
+        <pre id="earnOutput" style="font-size:10px; color:var(--lav); white-space:pre-wrap; padding:5px;">Warte auf Befehl...</pre>
     </div>
 
+    <!-- 4. LOG (Selbst-Erklärung) -->
     <div class="panel">
-        <h2>🏭 MARKT</h2>
-        <div class="status-box tooltip" data-tip="Hier findet der Markt statt" onclick="activatePipe(0)">
-            <b>MARKT AKTIV</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Erste Bewertung" onclick="activatePipe(1)">
-            <b>BEWERTUNG</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Zweite Bewertung" onclick="activatePipe(2)">
-            <b>RESPO 2</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Ausführung im Markt" onclick="activatePipe(4)">
-            <b>AUSFÜHRUNG</b>
-        </div>
+        <h2>📜 NC COMMAND LOG</h2>
+        <div id="log"></div>
     </div>
 
-    <div class="panel">
-        <h2>⚙️ INDUSTRY</h2>
-        <div class="status-box tooltip" data-tip="Industrielle Arbeit" onclick="activatePipe(0)">
-            <b>INDUSTRIE</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Erstes Feedback" onclick="activatePipe(1)">
-            <b>FEEDBACK 1</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Zweites Feedback" onclick="activatePipe(2)">
-            <b>FEEDBACK 2</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Industrie Runner" onclick="activatePipe(4)">
-            <b>P4 · RUNNER</b>
-        </div>
-    </div>
-
-    <div class="panel">
-        <h2>🎭 STAGE</h2>
-        <div class="status-box tooltip" data-tip="Die Bühne ist bereit" onclick="activatePipe(0)">
-            <b>STAGE</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Erste Rückmeldung der Bühne" onclick="activatePipe(1)">
-            <b>RESPO</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Zweite Rückmeldung" onclick="activatePipe(2)">
-            <b>RESPO 2</b>
-        </div>
-        <div class="status-box tooltip" data-tip="Durchführung" onclick="activatePipe(4)">
-            <b>RUNNER</b>
-        </div>
-    </div>
-</div>
-
-<!-- 3. VERDRIFFTLER / VIERTLER (Team-Work) -->
-<div class="panel">
-    <h2>🎯 PIPELINE 9 + 12 · TEAM BUILD &amp; SORTIERUNG</h2>
-    <div style="font-size:11px; line-height:1.8;">
-        <div><b style="color:var(--gold);">P9 (Team Build):</b> Hier arbeiten 9 Teams zusammen, um einen Block zu formen.</div>
-        <div><b style="color:var(--lav);">P12 (Verdrittler/Viertler):</b> Pipeline 12 teilt die Teams in 3 oder 4 auf, wenn nötig (ORGANISATOR).</div>
-    </div>
-    <div class="grid-3" style="margin-top:10px;">
-        <button class="primary" onclick="activateTeam()">🌀 TEAM BUILD (P9)</button>
-        <button class="vert" onclick="activateSort()">🔀 SORTIERUNG (P12)</button>
-        <button onclick="resetAll()">⟲ RESET ALL</button>
-    </div>
-</div>
-
-<!-- 4. SELF-EXPLANATION (Log) -->
-<div class="panel">
-    <h2>📜 SELF‑EXPLANATION LOG</h2>
-    <div id="log">
-        <div class="entry"><span class="time">[init]</span> <span class="msg gold">🌀 Superpipeline bereit.</span></div>
-    </div>
-</div>
+    <footer>
+        ⚖️ EVO-GEOLEGAL · iki1uc © · Code Nutzung erlaubt, Logik-Reproduktion verboten.
+    </footer>
 
 <script>
 // ============================================================
-// KONFIGURATION: Pipeline Nodes
+// EVO-GEOLEGAL (Das Gesetz in Code)
 // ============================================================
-const PIPELINE_STATES = [0, 1, 2, 4, 9, 12];
-let currentStage = 0;
+const GEOLEGAL = {
+    owner: "iki1uc (Ridvan)",
+    license: "MIT",
+    core: "Nutzung erlaubt. Kern-Logik nicht reproduzierbar.",
+    check() {
+        return this.owner + " · " + this.core;
+    }
+};
 
 // ============================================================
-// LOG Funktion
+// 6D NC BEFEHLSKETTE (Die 6 Richtungen)
 // ============================================================
-function log(msg, type = 'msg') {
-    const el = document.getElementById('log');
-    const entry = document.createElement('div');
-    entry.className = 'entry';
-    const time = new Date().toLocaleTimeString();
-    entry.innerHTML = `<span class="time">[${time}]</span> <span class="${type}">${msg}</span>`;
-    el.appendChild(entry);
+const COMMANDS_6D = {
+    X: "LINKS (Links/Rechts Achse)",
+    Y: "RECHTS (Höhe/Layer Achse)",
+    Z: "TIEFE (Vor/Zurück Achse)",
+    T: "ZEIT (Forward/Rewind)",
+    U: "UP (Aufwärts/Orbit)",
+    V: "VIRTUAL (Meta/System)"
+};
+
+// ============================================================
+// PIPELINE 21 (EARN) - Das halb-lebende Gehirn
+// ============================================================
+class Pipeline21 {
+    constructor() {
+        this.station = "STAGE";
+        this.state = 0;
+        this.totalEarn = 0;
+    }
+
+    activate(station) {
+        this.station = station;
+        log(`🌀 Station gewechselt: ${station}`, "ok");
+    }
+
+    run(input) {
+        // Pipeline21 Formel: Höhe × Bewertung × EVO
+        const hoehe = input.x * 3;    // P9 Build
+        const bewertung = input.z * 5; // P12 Sortierung
+        const evo = this.totalEarn * 0.5 + 1; // Parasitärer EVO
+        
+        this.totalEarn = (hoehe + bewertung) * evo;
+        
+        return {
+            station: this.station,
+            earn: this.totalEarn.toFixed(2),
+            pipeline: "P21"
+        };
+    }
+}
+
+const p21 = new Pipeline21();
+
+// ============================================================
+// LOG FUNKTION
+// ============================================================
+function log(msg, type = "") {
+    const el = document.getElementById("log");
+    const e = document.createElement("div");
+    e.className = "entry";
+    const t = new Date().toLocaleTimeString();
+    e.innerHTML = `<span class="time">[${t}]</span> <span class="${type}">${msg}</span>`;
+    el.appendChild(e);
     el.scrollTop = el.scrollHeight;
 }
 
 // ============================================================
-// SELBST-ERKLÄRUNG: Tooltips & Logging
+// 6D BEFEHL SKETTE AKTIVIEREN
 // ============================================================
-const EXPLAIN = {
-    0: "P0: ARBEIT — Die Arbeit beginnt hier. Der Ursprung alles Materials.",
-    1: "P1: RESPO 1 — Erste systemische Rückmeldung. Wie reagiert das System?",
-    2: "P2: RESPO 2 — Zweite Rückmeldung. Verstärkt oder gedämpft?",
-    4: "P4: RUNNER — Führt die Aktion aus. Der Bewegungsimpuls.",
-    9: "P9: TEAM BUILD — 9 Teams formen zusammen ein größeres Ganzes.",
-    12: "P12: VERDRIFFTLER — Teilt Teams in 3er/4er-Gruppen. Organisiert Ausführung."
-};
-
-// ============================================================
-// PIPELINE ANZEIGE
-// ============================================================
-function renderPipeline() {
-    const container = document.getElementById('mainPipeline');
-    container.innerHTML = '';
-    
-    PIPELINE_STATES.forEach((state, idx) => {
-        const node = document.createElement('div');
-        node.className = 'pipe-node' + (state === currentStage ? ' active' : '');
-        node.textContent = state;
-        node.dataset.tip = EXPLAIN[state]; // Selbst-Erklärung
-        node.onclick = () => activatePipe(state);
-        container.appendChild(node);
-        
-        if (idx < PIPELINE_STATES.length - 1) {
-            const arrow = document.createElement('span');
-            arrow.className = 'pipe-arrow';
-            arrow.textContent = '→';
-            container.appendChild(arrow);
-        }
-    });
+function setCmd(cmd) {
+    document.querySelectorAll('.cmd').forEach(c => c.classList.remove('active'));
+    const el = document.querySelector(`.cmd[data-cmd="${cmd}"]`);
+    if (el) {
+        el.classList.add('active');
+        log(`⚡ 6D Befehl: ${cmd} = ${COMMANDS_6D[cmd]}`, "cmd6d");
+    }
 }
 
 // ============================================================
-// AKTIONEN
+// STATION SETZEN
 // ============================================================
-function activatePipe(stage) {
-    currentStage = stage;
-    renderPipeline();
-    log(`🌀 Pipeline ${stage} aktiviert: ${EXPLAIN[stage]}`, stage >= 9 ? 'gold' : 'ok');
-    
-    // Pipeline Statusboxen aktualisieren
-    document.querySelectorAll('.status-box').forEach(box => box.classList.remove('active'));
-}
-
-function activateTeam() {
-    currentStage = 9;
-    renderPipeline();
-    log('🌀 P9 Team Build aktiviert: 9 Teams formen das Ganze.', 'gold');
-    document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
-}
-
-function activateSort() {
-    currentStage = 12;
-    renderPipeline();
-    log('🌀 P12 Sortierung aktiviert: Teams werden verdrittelt/geviertelt.', 'gold');
-    document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight;
-}
-
-function resetAll() {
-    currentStage = 0;
-    renderPipeline();
-    document.querySelectorAll('.status-box').forEach(box => box.classList.remove('active'));
-    log('⟲ ALLES RESET — Pipeline zurück auf P0.', 'err');
+function setStation(station) {
+    document.querySelectorAll('.station-box').forEach(b => b.classList.remove('active'));
+    p21.activate(station);
+    document.getElementById('earnOutput').textContent = "Station: " + station;
+    log(`🎭 Station: ${station}`, "ok");
 }
 
 // ============================================================
-// INIT
+// PIPELINE12 AUSFÜHREN
 // ============================================================
-renderPipeline();
-log('🌀 Selbst-Erklärung aktiv: Bewege Maus über Pipeline-Nodes für Infos.', 'ok');
+function runPipeline12() {
+    setCmd("T"); // Zeit aktivieren
+    const result = p21.run({ x: 3, z: 9 }); // P9 & P12 Input
+    document.getElementById('earnOutput').textContent = 
+        `EARN: ${result.earn}\nP21 AKTIV\nSTATION: ${result.station}`;
+    log(`📐 P12 AUSGEFÜHRT → P21 EARN: ${result.earn}`, "earn");
+}
+
+// ============================================================
+// EARN (P21) AUSFÜHREN
+// ============================================================
+function runEarn() {
+    setCmd("U"); // Up aktivieren
+    const result = p21.run({ x: 9, z: 12 });
+    document.getElementById('earnOutput').textContent = 
+        `💰 EARN: ${result.earn}\nP21 EARN-AKTIV\nBOERSE/MARKT: ON`;
+    log(`💰 EARN: ${result.earn} freigeschaltet`, "earn");
+}
+
+// ============================================================
+// EVO-GEOLEGAL PRÜFEN
+// ============================================================
+function runGeoLegal() {
+    setCmd("V"); // Virtual aktivieren
+    const legal = GEOLEGAL.check();
+    document.getElementById('earnOutput').textContent = 
+        `⚖️ ${legal}`;
+    log(`⚖️ EVO-GEOLEGAL: ${legal}`, "ok");
+}
+
+// ============================================================
+// INIT: Alle 6D CMD Klickbar machen
+// ============================================================
+document.querySelectorAll('.cmd').forEach(c => {
+    c.addEventListener('click', () => setCmd(c.dataset.cmd));
+});
+
+// Startlog
+log("🌀 6D NC Befehlskette bereit.", "cmd6d");
+log("🌀 Pipeline21 (EARN) aktiviert.", "earn");
+log("⚖️ EVO-GEOLEGAL Schutz aktiv.", "ok");
+console.log("🌀 6D NC Befehlskette · iki1uc ©");
 </script>
 
 </body>
