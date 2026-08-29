@@ -1,26 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>PIPE12 · SORTIER · TEAM</title>
+
+<style>
+  body { background:#111; color:#eee; font-family:Arial; padding:20px; }
+  .box { background:#222; padding:20px; border-radius:10px; margin-bottom:20px; }
+  .title { font-size:20px; margin-bottom:10px; color:#6cf; }
+  input[type=range] { width:100%; }
+  pre { background:#000; padding:10px; border-radius:6px; }
+</style>
+</head>
+
+<body>
+
 <div class="box">
-  <div class="title">WETTE · SLIDE · SCORER</div>
+  <div class="title">PIPE12 · TEAM‑SORTIERUNG</div>
 
-  <label style="color:#6cf;">Wert:</label>
-  <input id="wetteSlide" type="range" min="0" max="100" value="50" 
-         style="width:100%; margin:12px 0;">
+  <label style="color:#6cf;">Team‑Level:</label>
+  <input id="teamSlide" type="range" min="0" max="100" value="50">
 
-  <pre id="wetteScore">Score: 50 · Zustand: MITTE</pre>
+  <pre id="teamScore">Team: MITTEL · Farbe: GELB</pre>
+</div>
+
+<div class="box">
+  <div class="title">PIPE12 → PIPE9 · Übergabe</div>
+  <pre id="uebergabe">Noch keine Übergabe</pre>
 </div>
 
 <script>
-function scorerend(v){
-    if(v < 20) return "LOW";
-    if(v < 40) return "MID‑LOW";
-    if(v < 60) return "MITTE";
-    if(v < 80) return "HIGH";
-    return "ULTRA";
+// ------------------------------------------------------------
+// PIPE12 · TEAM‑LEVEL
+// ------------------------------------------------------------
+function teamLevel(v){
+    return v < 30  ? "SCHWACH"
+         : v < 70  ? "MITTEL"
+         :           "STARK";
 }
 
-document.getElementById("wetteSlide").addEventListener("input", e => {
+function teamColor(v){
+    return v < 30  ? "ROT"
+         : v < 70  ? "GELB"
+         :           "GRÜN";
+}
+
+// ------------------------------------------------------------
+// PIPE9 · BUILD (Tiefe)
+// ------------------------------------------------------------
+function pipe9Build(v){
+    return {
+        tiefe: v * 2,
+        build: true
+    };
+}
+
+// ------------------------------------------------------------
+// PIPE21 · ORGANISATOR (EARN)
+// ------------------------------------------------------------
+function pipe21Organisator(v){
+    return {
+        earn: true,
+        hoehe: teamLevel(v),
+        farbe: teamColor(v),
+        tiefe: pipe9Build(v).tiefe
+    };
+}
+
+// ------------------------------------------------------------
+// EVENT: PIPE12 → PIPE9 → PIPE21
+// ------------------------------------------------------------
+document.getElementById("teamSlide").addEventListener("input", e => {
     const v = Number(e.target.value);
-    const s = scorerend(v);
-    document.getElementById("wetteScore").textContent = 
-        `Score: ${v} · Zustand: ${s}`;
+
+    const lvl = teamLevel(v);
+    const col = teamColor(v);
+
+    document.getElementById("teamScore").textContent =
+        `Team: ${lvl} · Farbe: ${col}`;
+
+    const p21 = pipe21Organisator(v);
+
+    document.getElementById("uebergabe").textContent =
+        `PIPE21 (EARN):
+         Höhe: ${p21.hoehe}
+         Farbe: ${p21.farbe}
+         Tiefe: ${p21.tiefe}`;
 });
 </script>
+
+</body>
+</html>
